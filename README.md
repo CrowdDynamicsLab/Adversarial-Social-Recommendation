@@ -3,7 +3,7 @@ This repository contains code for the CIKM 2019 publication titled "A Modular Ad
 
 If this code is helpful in your research, please cite the following publication
 
-> Krishnan, Adit, Ashish Sharma, and Hari Sundaram. "Insights from the Long-Tail: Learning Latent Representations of Online User Behavior in the Presence of Skew and Sparsity." Proceedings of the 27th ACM International Conference on Information and Knowledge Management. ACM, 2018.
+> Krishnan, Adit, et al. "A modular adversarial approach to social recommendation." Proceedings of the 28th ACM International Conference on Information and Knowledge Management. 2019.
 
 ## Getting Started
 
