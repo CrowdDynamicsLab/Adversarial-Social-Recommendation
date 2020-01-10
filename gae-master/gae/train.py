@@ -3,6 +3,7 @@ from __future__ import print_function
 
 import time
 import os
+import sys
 
 # Train on CPU (hide GPU) due to memory constraints
 os.environ['CUDA_VISIBLE_DEVICES'] = ""
@@ -42,7 +43,8 @@ dataset_str = FLAGS.dataset
 print("loading")
 
 
-DATA_DIR = "../../epinions_dataset/"   # Path to dataset
+# DATA_DIR = "../../epinions_dataset/"   # Path to dataset
+DATA_DIR = sys.argv[1]
 tp = pd.read_csv(os.path.join(DATA_DIR, 'user_link.csv'))
 n_users = tp['user1'].max() + 1
 
@@ -215,7 +217,7 @@ for a in range(n_users):
 		emb[a] = np.mean(emb, axis = 0)
 		while (np.linalg.norm(emb[a]) == 0):
 			emb[a] = 2.0*np.array(emb[a])
-		# print("0 norm")
+#		print("0 norm")
 
 np.save(DATA_DIR+"user_emb.npy", emb)
 
