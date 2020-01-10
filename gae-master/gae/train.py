@@ -42,8 +42,6 @@ dataset_str = FLAGS.dataset
 # Load data
 print("loading")
 
-
-# DATA_DIR = "../../epinions_dataset/"   # Path to dataset
 DATA_DIR = sys.argv[1]
 tp = pd.read_csv(os.path.join(DATA_DIR, 'user_link.csv'))
 n_users = tp['user1'].max() + 1
