@@ -25,12 +25,9 @@ $ conda env create -f author.yml
 
 For a paricular dataset, the model requires the following input files:
 
-- **<dataset>_pre_processed.txt**: Each row of this file corresponds to one data point in your dataset and has 4 columns - Text, UserId, Behaviour and Timestamp (all tab separated).  The columns are described below:
-    - **Text**: The text in your data point. Pre-process the text for efficient use.
-    - **UserId**: A user index between 0 to num_users-1 corresponding to the user of the data point.
-    - **Behaviour**: The action observed in the data point. Eg, questioning, answering, commenting, etc. for Stack-Exchanges
-    - **Timestamp**: The normalized value of time of data point. The value must be between 0.01 to 0.99 and should be truncated to 2 decimal places. 
-- **<dataset>_links.txt**: This file is optional and can be provided if you have social interaction information as part of your dataset. Each row corresponds to a link from a data point i to data point j and has 2 colums - i and j (tab-separated). The data points are zero-indexed and indexing is defined from the <dataset>_pre_processed file.
+- **item2id.txt**: Each row of this file corresponds to a specific item. The original item IDs (from the actual dataset) are mapped to a conitnuous set of integers to be used in all other input files.
+- **profile2id.txt**: This is the same as item2id, except it maps each user ID to an integer value. 
+- 
 
 Both the files should be placed inside the **Data** folder.
 
