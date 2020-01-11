@@ -23,43 +23,37 @@ $ conda env create -f author.yml
 
 ## Input File Format
 
-For a paricular dataset, the model requires the following input files:
+For a paricular dataset, the model requires the following input files (samples of every input file can be found in our sample_dataset folder):
 
-- **item2id.txt**: Each row of this file corresponds to a specific item. The original item IDs (from the actual dataset) are mapped to a conitnuous set of integers to be used in all other input files.
-- **profile2id.txt**: This is the same as item2id, except it maps each user ID to an integer value. 
-- 
+- **item2id.txt**: Each row of this file corresponds to a specific item. The original item IDs (from the actual dataset) are mapped to a conitguous set of integers to be used in all other input files.
+- **profile2id.txt**: This is the same as item2id, except it maps user IDs to contiguous integer values. For both users and items, the mapped continuous integer values (and not the original IDs) are used in the input files.
+- **all_ratings.csv**: Contains the set of all user likes or positive ratings in the entire dataset. Each line is a user index followed by an item they liked or rated positively.
+- **train.csv**: The train subset of all_ratings, containing about 80% of the users and all their ratings.
+- **val_tr, val_te.csv**: The validation and test sets contain about 10% of the users each. For each user in the validation and test sets, their ratings are split into 2 groups - input (tr) and output (te). Since VAE is an inductive model, at validation time the input (tr) part of a specific user's ratings is provided as input to the VAE and evaluation attempts to predict the output for the user, namely the val_te part.
+- **user_link.csv**: The set of all social links, one per line. Each user must have atleast one social link. We created dummy links (with a unique fake user) for each user without social connections.
 
-Both the files should be placed inside the **Data** folder.
+All the above files are placed in the dataset directory.
 
 ## Running the Model
 
-The model can be executed using the following command.
+The model first needs a set of predetermined social embeddings, for which we used a Graph Auto-Encoder (GAE). To run GAE, execute the following command inside the gae-master/gae/ path (the author tensorflow environment works with GAE as well):
 
 ```
-$ ./CMAP <options>
+$ source activate tensorflow_environment_with_prerequisites
+$ cd gae-master/gae/
+$ python train.py <path-to-dataset-directory>
 ```
 
-where possible options include:
+After GAE is executed, two additional files are created in the dataset directory:
+
+- **user_emb.npy**: Numpy file containing the set of social embeddings for users, as computed by GAE.
+- **user_p.npy**: Pre-computed social proximities of users, obtained by the dot product of their social embeddings. These proximities are used to create true pairs for the GAN.
+
+
+To run the actual model, execute train.py in the home path. 
 
 ```
---dataset <name>:         Name of the dataset to use (required)
---model <type>:           Model-Type. 0 for unified, 1 for factored (default 0)
---hr:                     Use the hierarachical version of the model
---thread <num_thread>:    Use the threaded version of the model. Specify number of threads to use
---G <num_groups>:         Specify the value of number of groups (default: 20)
---K <num_topics>:         Specify number of topics (Use only for unified model) (default: 20)
---K_w <num_text_topics>:  Specify number of text topics (Use only for factored model) (default: 20)
---K_b <num_behav_topics>: Specify number of behavior topics (Use only for factored model) (default: 5)
---scale <s>:              Specify the value of scale parameter (default: 1.5)
---discount <d>:           Specify the value of dicount parameter (default: 0.5)
---iter <num_iter>:        Specify the number of iterations to run (default: 500)
---help:                   Print help
+$ python train.py
 ```
 
-Providing the dataset name is mandatory. Please refer to the paper for optimal values of these parameters.
-
-## Sample Run
-A sample dataset named biology is present in the Data folder. For running the hierarchical variation of the unified model with G = 20 and K = 10 for 100 iterations, execute the following command:
-```
-$ ./CMAP --dataset biology --model 0 --hr --G 20 --K 10 --iter 100
-```
+By default the model is set to run on the sample dataset. To run the model on a different dataset or modify model options, go to flags.py. The list of flags are also described in the train.py file.
