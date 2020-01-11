@@ -23,7 +23,7 @@ $ conda env create -f author.yml
 
 ## Input File Format
 
-For a paricular dataset, the model requires 2 input files:
+For a paricular dataset, the model requires the following input files:
 
 - **<dataset>_pre_processed.txt**: Each row of this file corresponds to one data point in your dataset and has 4 columns - Text, UserId, Behaviour and Timestamp (all tab separated).  The columns are described below:
     - **Text**: The text in your data point. Pre-process the text for efficient use.
