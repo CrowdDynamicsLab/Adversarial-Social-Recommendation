@@ -7,7 +7,7 @@ If this code is helpful in your research, please cite the following publication
 
 ## Getting Started
 
-These instructions will help you reuse and modify our framework. The basic framework uses VAE-CF () as the Generator (Base Recommender) and a GCN-based Discriminator.
+These instructions will help you reuse and modify our framework. The basic framework uses VAE-CF (https://dl.acm.org/doi/10.1145/3178876.3186150) as the Generator (Base Recommender) and a GCN-based Discriminator.
 
 ### Platforms Supported
 
@@ -29,7 +29,10 @@ For a paricular dataset, the model requires the following input files (samples o
 - **profile2id.txt**: This is the same as item2id, except it maps user IDs to contiguous integer values. For both users and items, the mapped continuous integer values (and not the original IDs) are used in the input files.
 - **all_ratings.csv**: Contains the set of all user likes or positive ratings in the entire dataset. Each line is a user index followed by an item they liked or rated positively.
 - **train.csv**: The train subset of all_ratings, containing about 80% of the users and all their ratings.
-- **val_tr, val_te.csv**: The validation and test sets contain about 10% of the users each. For each user in the validation and test sets, their ratings are split into 2 groups - input (tr) and output (te). Since VAE is an inductive model, at validation time the input (tr) part of a specific user's ratings is provided as input to the VAE and evaluation attempts to predict the output for the user, namely the val_te part.
+- **val_tr, val_te.csv**: The validation and test sets contain about 10% of the users each. For each user in the validation and test sets, their ratings are split into 2 groups - input (tr) and output (te). 
+
+**Note**: Since VAE is an inductive model, users are not shared between the Train, Val and Test sets. At train time, the model attempts to reproduce the inputs, as in auto-encoder training setups. At validation/test time the input (tr) part of a specific validation/test user's ratings is provided as input to the VAE, and evaluation attempts to predict the output for the user, namely the val_te part. 
+
 - **user_link.csv**: The set of all social links, one per line. Each user must have atleast one social link. We created dummy links (with a unique fake user) for each user without social connections.
 
 All the above files are placed in the dataset directory.
@@ -56,4 +59,4 @@ To run the actual model, execute train.py in the home path.
 $ python train.py
 ```
 
-By default the model is set to run on the sample dataset. To run the model on a different dataset or modify model options, go to flags.py. The list of flags are also described in the train.py file.
+By default the model is set to run on the sample dataset. To run the model on a different dataset or modify model options, change the defaults in flags.py. The list of flags are also described in the train.py file. 
