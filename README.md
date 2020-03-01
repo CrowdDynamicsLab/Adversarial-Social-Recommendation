@@ -33,7 +33,7 @@ For a paricular dataset, the model requires the following input files (samples o
 
 **Note**: Since VAE is an inductive model, users are not shared between the Train, Val and Test sets. At train time, the model attempts to reproduce the inputs, as in auto-encoder training setups. At validation/test time the input (tr) part of a specific validation/test user's ratings is provided as input to the VAE, and evaluation attempts to predict the output for the user, namely the val_te part. 
 
-- **user_link.csv**: The set of all social links, one per line. Each user must have atleast one social link. We created dummy links (with a unique fake user) for each user without social connections.
+- **user_link.csv**: The set of all social links, one per line. Each user must have atleast one social link.
 
 All the above files are placed in the dataset directory.
 
